@@ -3526,8 +3526,12 @@ function set_global_id() {
 }
 
 function set_author() {
-    _via_author = prompt("Enter name/ID (to be saved with the annotations)");
-    via_set_author.innerHTML = "Set Author (" + _via_author + ")";
+    var input = prompt("Enter name/ID (to be saved with the annotations)");
+    
+    if( input ) {
+        _via_author = input;
+        via_set_author.innerHTML = "Set Author (" + _via_author + ")";
+    }
 }
 
 //
