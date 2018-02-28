@@ -1364,8 +1364,11 @@ function import_annotations_from_json(data) {
     if (data === '' || typeof(data) === 'undefined') {
         return;
     }
+    var dat = JSON.parse(data);
+    var d = dat["data"];
+    _via_author = dat["author"];
+    via_set_author.innerHTML = "Set Author (" + _via_author + ")";
 
-    var d = JSON.parse(data);
 
     var region_import_count = 0;
     for (var image_id in d) {
@@ -1608,6 +1611,7 @@ function pack_via_metadata(return_type) {
         // JSON.stringify() does not work with Map()
         // hence, we cast everything as objects
         var _via_img_metadata_as_obj = {};
+        var _via_total_metadata_as_obj = {};
         for ( var image_id in _via_img_metadata ) {
             var image_data = {};
             //image_data.fileref = _via_img_metadata[image_id].fileref;
@@ -1640,7 +1644,9 @@ function pack_via_metadata(return_type) {
             }
             _via_img_metadata_as_obj[image_id] = image_data;
         }
-        return [JSON.stringify(_via_img_metadata_as_obj)];
+        _via_total_metadata_as_obj["data"] = _via_img_metadata_as_obj;
+        _via_total_metadata_as_obj["author"] = _via_author;
+        return [JSON.stringify(_via_total_metadata_as_obj)];
     } else if ( return_type === "xml" ) {
         var xml_string = ""; 
         xml_string += "<labels>\n";
@@ -4276,7 +4282,7 @@ function set_global_id() {
     var input = prompt("Enter ID value");
     if (Number.isInteger && input > 0) {
         _via_global_id = parseInt(input);
-        show_message("Global Id counter updated");
+        show_message("Global ID counter updated");
         info_set_global_id.innerHTML = "Set Global ID (" + _via_global_id + ")";
 
     }
@@ -4287,7 +4293,7 @@ function set_global_id() {
 
 function set_author() {
     _via_author = prompt("Enter name/ID (to be saved with the annotations)");
-    via_set_author.innerHTML = "Set Global ID (" + _via_author + ")";
+    via_set_author.innerHTML = "Set Author (" + _via_author + ")";
 }
 
 //
