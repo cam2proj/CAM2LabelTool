@@ -98,6 +98,7 @@ var VIA_IMPORT_CSV_COMMENT_CHAR = '#';
 var VIA_GLOBAL_ID_LABEL = "global_id";
 
 var _via_global_id = 1;       // keep track of global ID
+var _via_author = "default";
 var _via_img_metadata = {};   // data structure to store loaded images metadata
 var _via_img_count    = 0;    // count of the loaded images
 var _via_canvas_regions = []; // image regions spec. in canvas space
@@ -195,6 +196,7 @@ var loaded_img_list_panel = document.getElementById('loaded_img_list_panel');
 var attributes_panel      = document.getElementById('attributes_panel');
 var annotation_data_window;
 var via_set_global_id = document.getElementById("info_set_global_id");
+var via_set_author = document.getElementById("set_author");
 
 var BBOX_LINE_WIDTH       = 4;
 var BBOX_SELECTED_OPACITY = 0.3;
@@ -876,6 +878,7 @@ function pack_via_metadata(return_type) {
     } else if ( return_type === "xml" ) {
         var xml_string = ""; 
         xml_string += "<labels>\n";
+        xml_string += "<author>"+_via_author+"</author>\n";
         for ( var image_id in _via_img_metadata ) {
             xml_string += "\t<annotation>\n";
             xml_string += "\t\t<filename>" + _via_img_metadata[image_id].filename + "</filename>\n";
@@ -3514,6 +3517,11 @@ function set_global_id() {
     else {
         show_message("Input must be a positive value.")
     }
+}
+
+function set_author() {
+    _via_author = prompt("Enter name/ID (to be saved with the annotations)");
+    via_set_author.innerHTML = "Set Global ID (" + _via_author + ")";
 }
 
 //

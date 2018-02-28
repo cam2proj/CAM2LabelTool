@@ -34,24 +34,6 @@
     <meta name="author" content="Abhishek Dutta">
     <meta name="description" content="VIA is a standalone image annotator application packaged as a single HTML file (< 200 KB) that runs on most modern web browsers.">
 
-    <!--
-    Development of VIA is supported by the EPSRC programme grant
-    Seebibyte: Visual Search for the Era of Big Data (EP/M013774/1).
-    Using Google Analytics, we record the usage of this application.
-    This data is used in reporting of this programme grant.
-    -->
-    <script type="text/javascript">
-      //<!--AUTO_INSERT_GOOGLE_ANALYTICS_JS_HERE-->
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-20555581-2', 'auto');
-      ga('set', 'page', '/via-1.0.0.html');
-      ga('send', 'pageview');
-    </script>
-
     <!-- CSS style definition -->
     <style type="text/css">
       body {
@@ -572,7 +554,12 @@
       <!-- Display info -->
       <div class="toolbar">
         <ul>
-          <li id="info_set_global_id" style="margin-left: 1em;" onclick="set_global_id()" title="Set Global Id">Set Global Id (1)</li>
+          <li id="info_set_global_id" style="margin-left: 1em;" onclick="set_global_id()" title="Set Global ID">Set Global Id (1)</li>
+        </ul>
+      </div> <!-- endof #info bar-->
+      <div class="toolbar">
+        <ul>
+          <li id="set_author" style="margin-left: 1em;" onclick="set_author()" title="Set Author">Set Author (default)</li>
         </ul>
       </div> <!-- endof #info bar-->
     </div> <!-- endof #top_panel -->
@@ -877,6 +864,7 @@ var VIA_IMPORT_CSV_COMMENT_CHAR = '#';
 var VIA_GLOBAL_ID_LABEL = "global_id";
 
 var _via_global_id = 1;       // keep track of global ID
+var _via_author = "default";
 var _via_img_metadata = {};   // data structure to store loaded images metadata
 var _via_img_count    = 0;    // count of the loaded images
 var _via_canvas_regions = []; // image regions spec. in canvas space
@@ -974,6 +962,7 @@ var loaded_img_list_panel = document.getElementById('loaded_img_list_panel');
 var attributes_panel      = document.getElementById('attributes_panel');
 var annotation_data_window;
 var via_set_global_id = document.getElementById("info_set_global_id");
+var via_set_author = document.getElementById("set_author");
 
 var BBOX_LINE_WIDTH       = 4;
 var BBOX_SELECTED_OPACITY = 0.3;
@@ -1655,6 +1644,7 @@ function pack_via_metadata(return_type) {
     } else if ( return_type === "xml" ) {
         var xml_string = ""; 
         xml_string += "<labels>\n";
+        xml_string += "<author>"+_via_author+"</author>\n";
         for ( var image_id in _via_img_metadata ) {
             xml_string += "\t<annotation>\n";
             xml_string += "\t\t<filename>" + _via_img_metadata[image_id].filename + "</filename>\n";
@@ -4293,6 +4283,11 @@ function set_global_id() {
     else {
         show_message("Input must be a positive value.")
     }
+}
+
+function set_author() {
+    _via_author = prompt("Enter name/ID (to be saved with the annotations)");
+    via_set_author.innerHTML = "Set Global ID (" + _via_author + ")";
 }
 
 //
