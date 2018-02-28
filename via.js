@@ -3061,12 +3061,19 @@ window.addEventListener('keydown', function(e) {
             return;
         }
 
-        if ( e.which === 90 ) { // Ctrl + z
-                if( _via_pasting_to_next_frame === false) {
-                sel_all_regions();
-                copy_sel_regions();
+        if ( e.which === 90 && _via_image_index !== (_via_img_count - 1) ) { // Ctrl + z
+            if( document.getElementById('video_checkbox').checked ) {
+                if( _via_pasting_to_next_frame === false ) {
+                    sel_all_regions();
+                    copy_sel_regions();
+                    move_to_next_image();
+                    _via_pasting_to_next_frame = true;
+                }
+            }
+            else {
+                _via_global_id = 1;
+                info_set_global_id.innerHTML = "Set Global ID (" + _via_global_id + ")";
                 move_to_next_image();
-                _via_pasting_to_next_frame = true;
             }
             e.preventDefault();
             return;
