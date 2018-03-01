@@ -1660,32 +1660,33 @@ function pack_via_metadata(return_type) {
         xml_string += "<labels>\n";
         xml_string += "<author>"+_via_author+"</author>\n";
         for ( var image_id in _via_img_metadata ) {
-            alert(image_id);
-            xml_string += "\t<annotation>\n";
-            xml_string += "\t\t<filename>" + _via_img_metadata[image_id].filename + "</filename>\n";
-            xml_string += "\t\t<size>\n";
-            xml_string += "\t\t\t<width>" + _via_canvas_width + "</width>\n";
-            xml_string += "\t\t\t<height>" + _via_canvas_height + "</height>\n";
-            xml_string += "\t\t</size>\n";
-            for ( var i = 0; i < _via_img_metadata[image_id].regions.length; i++ ) {
-                xml_string += "\t\t<object>\n";
-                for ( var attribute in _via_img_metadata[image_id].regions[i].region_attributes ) {
-                    xml_string += "\t\t\t<" + attribute + ">" + _via_img_metadata[image_id].regions[i].region_attributes[attribute] + "</" + attribute + ">\n";
+            if(_via_img_metadata[image_id].empty || _via_img_metadata[image_id].regions.length > 0) {
+                xml_string += "\t<annotation>\n";
+                xml_string += "\t\t<filename>" + _via_img_metadata[image_id].filename + "</filename>\n";
+                xml_string += "\t\t<size>\n";
+                xml_string += "\t\t\t<width>" + _via_canvas_width + "</width>\n";
+                xml_string += "\t\t\t<height>" + _via_canvas_height + "</height>\n";
+                xml_string += "\t\t</size>\n";
+                for ( var i = 0; i < _via_img_metadata[image_id].regions.length; i++ ) {
+                    xml_string += "\t\t<object>\n";
+                    for ( var attribute in _via_img_metadata[image_id].regions[i].region_attributes ) {
+                        xml_string += "\t\t\t<" + attribute + ">" + _via_img_metadata[image_id].regions[i].region_attributes[attribute] + "</" + attribute + ">\n";
+                    }
+                    xml_string += "\t\t\t<shape>" + _via_img_metadata[image_id].regions[i].shape_attributes.name + "</shape>\n";
+                    if (_via_img_metadata[image_id].regions[i].shape_attributes.name === "rect" ) {
+                        xml_string += "\t\t\t<bndbox>\n";
+                        xml_string += "\t\t\t\t<xmin>" + _via_img_metadata[image_id].regions[i].shape_attributes.x + "</xmin>\n";
+                        xml_string += "\t\t\t\t<ymin>" + _via_img_metadata[image_id].regions[i].shape_attributes.y + "</ymin>\n";
+                        xml_string += "\t\t\t\t<xmax>" + (_via_img_metadata[image_id].regions[i].shape_attributes.x + 
+                            _via_img_metadata[image_id].regions[i].shape_attributes.width) + "</xmax>\n";
+                        xml_string += "\t\t\t\t<ymax>" + (_via_img_metadata[image_id].regions[i].shape_attributes.y + 
+                            _via_img_metadata[image_id].regions[i].shape_attributes.height) + "</ymax>\n";
+                        xml_string += "\t\t\t</bndbox>\n";
+                    }
+                    xml_string += "\t\t</object>\n";
                 }
-                xml_string += "\t\t\t<shape>" + _via_img_metadata[image_id].regions[i].shape_attributes.name + "</shape>\n";
-                if (_via_img_metadata[image_id].regions[i].shape_attributes.name === "rect" ) {
-                    xml_string += "\t\t\t<bndbox>\n";
-                    xml_string += "\t\t\t\t<xmin>" + _via_img_metadata[image_id].regions[i].shape_attributes.x + "</xmin>\n";
-                    xml_string += "\t\t\t\t<ymin>" + _via_img_metadata[image_id].regions[i].shape_attributes.y + "</ymin>\n";
-                    xml_string += "\t\t\t\t<xmax>" + (_via_img_metadata[image_id].regions[i].shape_attributes.x + 
-                        _via_img_metadata[image_id].regions[i].shape_attributes.width) + "</xmax>\n";
-                    xml_string += "\t\t\t\t<ymax>" + (_via_img_metadata[image_id].regions[i].shape_attributes.y + 
-                        _via_img_metadata[image_id].regions[i].shape_attributes.height) + "</ymax>\n";
-                    xml_string += "\t\t\t</bndbox>\n";
-                }
-                xml_string += "\t\t</object>\n";
+                xml_string += "\t</annotation>\n";
             }
-            xml_string += "\t</annotation>\n";
         }
         xml_string += "</labels>\n";
         return [xml_string];
@@ -4108,6 +4109,10 @@ function copy_sel_regions() {
     } else {
         show_message('Select a region first!');
     }
+}
+
+function mark_as_empty() {
+    _via_img_metadata[_via_img_id].empty = true;
 }
 
 function paste_sel_regions() {
