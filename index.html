@@ -533,7 +533,6 @@
           <li onclick="sel_local_images()" title="Load or Add Images">&ctdot;</li>
           <li onclick="sel_local_data_file('annotations')" title="Import Annotations">&uarr;</li>
           <li onclick="download_all_region_data('csv')" title="Save Annotations (as CSV)">&DownArrowBar;</li>
-          -->
 
           <li id="toolbar_prev_img" style="margin-left: 1em;" onclick="move_to_prev_image()" title="Previous Image">&larr;</li>
           <li id="toolbar_next_img" onclick="move_to_next_image()" title="Next Image">&rarr;</li>
@@ -543,14 +542,13 @@
           <li id="toolbar_zoom_in" onclick="zoom_in()" title="Zoom In">&plus;</li>
           <li id="toolbar_zoom_reset" onclick="reset_zoom_level()" title="Zoom Reset">&equals;</li>
 
-          <!--
           <li id="toolbar_copy_region" style="margin-left: 2em;" onclick="copy_sel_regions()" title="Copy Region">c</li>
           <li id="toolbar_paste_region" onclick="paste_sel_regions()" title="Paste Region">v</li>
           <li id="toolbar_sel_all_region" onclick="sel_all_regions()" title="Select All Regions">a</li>
           <li id="toolbar_del_region" onclick="del_sel_regions()" title="Delete Region">&times;</li> 
           -->
         </ul>
-      </div> <!-- end of #tollbar -->
+      </div> <!-- end of #toolbar -->
 
       <input type="file" id="invisible_file_input" multiple name="files[]" style="display:none">
       <!-- Mode Set -->
@@ -558,18 +556,24 @@
         <ul>
             <li style="margin-left: 0.5em;"><form> <input type="checkbox" name="video" value="video" id="video_checkbox" checked><label for="video">Video Frames</label></form></li>
         </ul>
-      </div> <!-- endof #info bar-->
+      </div> 
       <!-- Display info -->
       <div class="toolbar">
         <ul>
           <li id="info_set_global_id" style="margin-left: 0.5em;" onclick="set_global_id()" title="Set Global ID">Set Global Id (1)</li>
         </ul>
-      </div> <!-- endof #info bar-->
+      </div>
       <div class="toolbar">
         <ul>
           <li id="set_author" style="margin-left: 0.5em;" onclick="set_author()" title="Set Author">Set Author (default)</li>
         </ul>
       </div> <!-- endof #info bar-->
+      <!-- User Input -->
+      <div class="toolbar">
+        <ul>
+            <li style="margin-left: 0.5em;"><form> <input type="checkbox" name="no_object" value="no_object" id="no_object_checkbox" checked><label for="no_object">Video Frames</label></form></li>
+        </ul>
+      </div> 
     </div> <!-- endof #top_panel -->
 
     <!-- Middle Panel contains a left-sidebar and image display areas -->
@@ -637,7 +641,7 @@
             </tr>
             <tr>
               <td>Ctrl + z</td>
-              <td>Move to next image and retain regions</td>
+              <td>Move to next image (retain regions for video frames)</td>
             </tr>
             <tr>
               <td>Spacebar</td>

@@ -3544,6 +3544,10 @@ function set_author() {
     }
 }
 
+function no_object_in_image() {
+
+}
+
 //
 // Persistence of annotation data in browser cache (i.e. localStorage)
 //
