@@ -1629,36 +1629,38 @@ function pack_via_metadata(return_type) {
         var _via_img_metadata_as_obj = {};
         var _via_total_metadata_as_obj = {};
         for ( var image_id in _via_img_metadata ) {
-            var image_data = {};
-            //image_data.fileref = _via_img_metadata[image_id].fileref;
-            image_data.fileref = '';
-            image_data.size = _via_img_metadata[image_id].size;
-            image_data.filename = _via_img_metadata[image_id].filename;
-            image_data.base64_img_data = '';
-            //image_data.base64_img_data = _via_img_metadata[image_id].base64_img_data;
+            if(_via_img_metadata[image_id].empty || _via_img_metadata[image_id].regions.length > 0) {
+                var image_data = {};
+                //image_data.fileref = _via_img_metadata[image_id].fileref;
+                image_data.fileref = '';
+                image_data.size = _via_img_metadata[image_id].size;
+                image_data.filename = _via_img_metadata[image_id].filename;
+                image_data.base64_img_data = '';
+                //image_data.base64_img_data = _via_img_metadata[image_id].base64_img_data;
 
-            // copy file attributes
-            image_data.file_attributes = {};
-            for ( var key in _via_img_metadata[image_id].file_attributes ) {
-                image_data.file_attributes[key] = _via_img_metadata[image_id].file_attributes[key];
-            }
+                // copy file attributes
+                image_data.file_attributes = {};
+                for ( var key in _via_img_metadata[image_id].file_attributes ) {
+                    image_data.file_attributes[key] = _via_img_metadata[image_id].file_attributes[key];
+                }
 
-            // copy all region shape_attributes
-            image_data.regions = {};
-            for ( var i = 0; i < _via_img_metadata[image_id].regions.length; ++i ) {
-                image_data.regions[i] = {};
-                image_data.regions[i].shape_attributes = {};
-                image_data.regions[i].region_attributes = {};
-                // copy region shape_attributes
-                for ( var key in _via_img_metadata[image_id].regions[i].shape_attributes ) {
-                    image_data.regions[i].shape_attributes[key] = _via_img_metadata[image_id].regions[i].shape_attributes[key];
+                // copy all region shape_attributes
+                image_data.regions = {};
+                for ( var i = 0; i < _via_img_metadata[image_id].regions.length; ++i ) {
+                    image_data.regions[i] = {};
+                    image_data.regions[i].shape_attributes = {};
+                    image_data.regions[i].region_attributes = {};
+                    // copy region shape_attributes
+                    for ( var key in _via_img_metadata[image_id].regions[i].shape_attributes ) {
+                        image_data.regions[i].shape_attributes[key] = _via_img_metadata[image_id].regions[i].shape_attributes[key];
+                    }
+                    // copy region_attributes
+                    for ( var key in _via_img_metadata[image_id].regions[i].region_attributes ) {
+                        image_data.regions[i].region_attributes[key] = _via_img_metadata[image_id].regions[i].region_attributes[key];
+                    }
                 }
-                // copy region_attributes
-                for ( var key in _via_img_metadata[image_id].regions[i].region_attributes ) {
-                    image_data.regions[i].region_attributes[key] = _via_img_metadata[image_id].regions[i].region_attributes[key];
-                }
-            }
             _via_img_metadata_as_obj[image_id] = image_data;
+            }
         }
         _via_total_metadata_as_obj["data"] = _via_img_metadata_as_obj;
         _via_total_metadata_as_obj["author"] = _via_author;
