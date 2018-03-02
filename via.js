@@ -246,9 +246,9 @@ function _via_init() {
         }, 100);
     }
 
-    set_scale();
     add_new_attribute('r', VIA_GLOBAL_ID_LABEL); // initialize default global ID
     info_set_global_id.innerHTML = "Set Global ID (" + _via_global_id + ")";
+    set_scale();
 }
 
 //
@@ -1091,6 +1091,7 @@ function show_image(image_index) {
                 show_img_list();
             }
             set_scale();
+            document.getElementById("no_object_checkbox").checked = _via_img_metadata[_via_image_id].empty;
             if(_via_pasting_to_next_frame) {
                 _via_pasting_to_next_frame = false;
                 paste_sel_regions();
@@ -3064,15 +3065,20 @@ window.addEventListener('keydown', function(e) {
         }
 
         if ( e.which === 90 ) { // Ctrl + z
-            if(_via_image_index !== (_via_img_count - 1 )) {
-                if( document.getElementById('video_checkbox').checked ) {
+            var isNoObject = _via_img_metadata[_via_image_id].empty
+
+            if (_via_image_index !== (_via_img_count - 1 )) {
+                if (_via_canvas_regions.length == 0 && !isNoObject) {
+                  alert("Please mark the No Object checkbox if there are no targeted objects in this image")  
+                }  
+                else if (document.getElementById('video_checkbox').checked) {
                     if( _via_pasting_to_next_frame === false ) {
                         sel_all_regions();
                         copy_sel_regions();
                         move_to_next_image();
                         _via_pasting_to_next_frame = true;
                     }
-                }
+                } 
                 else {
                     _via_global_id = 1;
                     info_set_global_id.innerHTML = "Set Global ID (" + _via_global_id + ")";
@@ -3330,15 +3336,13 @@ function copy_sel_regions() {
                 _via_copied_image_regions.push( clone_image_region(img_region) );
             }
         }
-        show_message('Copied ' + _via_copied_image_regions.length +
-            ' selected regions. Press Ctrl + v to paste');
+        if (_via_copied_image_regions.length > 0) {
+          show_message('Copied ' + _via_copied_image_regions.length +
+              ' selected regions. Press Ctrl + v to paste');
+        }
     } else {
         show_message('Select a region first!');
     }
-}
-
-function mark_as_empty() {
-    _via_img_metadata[_via_img_id].empty = true;
 }
 
 function paste_sel_regions() {
@@ -3367,7 +3371,10 @@ function paste_sel_regions() {
         _via_redraw_reg_canvas();
         _via_reg_canvas.focus();
     } else {
-        show_message('To paste a region, you first need to select a region and copy it!');
+      var isNoObject = _via_img_metadata[_via_image_id].empty
+      if (_via_pasting_to_next_frame && !isNoObject) {
+          show_message('To paste a region, you first need to select a region and copy it!');
+      }
     }
 }
 
@@ -3416,6 +3423,7 @@ function move_to_next_image() {
         if (_via_is_canvas_zoomed) {
             set_scale();
         }
+
     }
 }
 
@@ -3549,8 +3557,15 @@ function set_author() {
     }
 }
 
-function no_object_in_image() {
+function toggle_empty() {
+    var attribute = document.getElementById("no_object_checkbox");
+    attribute.checked = !attribute.checked;
+    _via_img_metadata[_via_image_id].empty = attribute.checked;
+}
 
+function toggle_frames() {
+    var attribute = document.getElementById("video_checkbox");
+    attribute.checked = !attribute.checked;
 }
 
 //
@@ -3944,6 +3959,7 @@ function update_attribute_value(attr_id, value) {
 }
 
 function add_new_attribute(type, attribute_name) {
+    console.log("adding global id attribute");
     switch(type) {
         case 'r': // region attribute
             if ( !_via_region_attributes.hasOwnProperty(attribute_name) ) {

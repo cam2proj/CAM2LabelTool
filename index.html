@@ -553,8 +553,13 @@
       <input type="file" id="invisible_file_input" multiple name="files[]" style="display:none">
       <!-- Mode Set -->
       <div class="toolbar">
-        <ul>
-            <li style="margin-left: 0.5em;"><form> <input type="checkbox" name="video" value="video" id="video_checkbox" checked><label for="video">Video Frames</label></form></li>
+        <ul onclick="toggle_frames()">
+          <li style="margin-left: 0.5em;" title="Retain regions for next frame"><form> <input type="checkbox" name="video" value="video" id="video_checkbox" checked><label for="video">Video Frames</label></form></li>
+        </ul>
+      </div> 
+      <div class="toolbar">
+        <ul onclick="toggle_empty()">
+          <li style="margin-left: 0.5em;" title="Check if no relevant objects are found"><form> <input type="checkbox" name="no_object" value="no_object" id="no_object_checkbox"><label for="no_object">No Object</label></form></li>
         </ul>
       </div> 
       <!-- Display info -->
@@ -569,11 +574,6 @@
         </ul>
       </div> <!-- endof #info bar-->
       <!-- User Input -->
-      <div class="toolbar">
-        <ul>
-            <li style="margin-left: 0.5em;"><form> <input type="checkbox" name="no_object" value="no_object" id="no_object_checkbox" checked><label for="no_object">Video Frames</label></form></li>
-        </ul>
-      </div> 
     </div> <!-- endof #top_panel -->
 
     <!-- Middle Panel contains a left-sidebar and image display areas -->
@@ -605,7 +605,7 @@
             </tr>
             <tr>
               <td style="width: 6em;">n/p</td>
-              <td>Next/Previous image</td>
+              <td>Browse Next/Previous image</td>
             </tr>
             <tr>
               <td>+&nbsp;/&nbsp;-&nbsp;/&nbsp;=</td>
