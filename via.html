@@ -644,6 +644,10 @@
               <td>Move to next image (retain regions for video frames)</td>
             </tr>
             <tr>
+              <td>Ctrl + 1</td>
+              <td>Mark the image as empty</td>
+            </tr>
+            <tr>
               <td>Spacebar</td>
               <td>Toggle image list</td>
             </tr>
@@ -3865,6 +3869,11 @@ window.addEventListener('keydown', function(e) {
             }
             e.preventDefault();
             return;
+        }
+
+        if (e.which === 49 ) { // Ctrl + 1
+            toggle_empty();
+            e.preventDefault();
         }
     }
 

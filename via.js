@@ -3088,6 +3088,11 @@ window.addEventListener('keydown', function(e) {
             e.preventDefault();
             return;
         }
+
+        if (e.which === 49 ) { // Ctrl + 1
+            toggle_empty();
+            e.preventDefault();
+        }
     }
 
     if (e.which === 9) { // tab through bounding boxes
