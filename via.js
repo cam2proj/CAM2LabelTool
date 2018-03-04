@@ -3993,21 +3993,21 @@ function change_region(image_id, region_id, move_x, move_y, grow_x, grow_y) {
         case VIA_REGION_SHAPE.RECT:
             var xnew = image_attr['x'] + Math.round(move_x * _via_canvas_scale);
             var ynew = image_attr['y'] + Math.round(move_y * _via_canvas_scale);
-            if (xnew >= 0 && xnew <_via_canvas_width - image_attr['width'] &&  ynew >= 0 && ynew < _via_canvas_height - image_attr['height'] ) {
+            //if (xnew >= 0 && xnew <_via_canvas_width - image_attr['width'] &&  ynew >= 0 && ynew < _via_canvas_height - image_attr['height'] ) {
                 image_attr['x'] = xnew;
                 image_attr['y'] = ynew;
                 canvas_attr['x'] = Math.round( image_attr['x'] / _via_canvas_scale);
                 canvas_attr['y'] = Math.round( image_attr['y'] / _via_canvas_scale);
-            }
+            //}
 
             var widthnew = image_attr['width'] + Math.round(grow_x * _via_canvas_scale);
             var heightnew = image_attr['height'] + Math.round(grow_y* _via_canvas_scale);
-            if (widthnew > 0 && heightnew > 0 && widthnew + image_attr['x'] < _via_canvas_width && heightnew +  image_attr['y'] < _via_canvas_height) {
+            //if (widthnew > 0 && heightnew > 0 && widthnew + image_attr['x'] < _via_canvas_width && heightnew +  image_attr['y'] < _via_canvas_height) {
                 image_attr['width'] = widthnew;
                 image_attr['height'] = heightnew;
                 canvas_attr['width'] = Math.round( image_attr['width'] / _via_canvas_scale);
                 canvas_attr['height'] = Math.round( image_attr['height'] / _via_canvas_scale);
-            }
+            //}
             break;
 
         case VIA_REGION_SHAPE.CIRCLE: 
